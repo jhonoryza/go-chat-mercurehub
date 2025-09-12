@@ -32,9 +32,9 @@ check gentoken folder
 npm install
 ```
 
-run `node publisher.js` to generate publisher jwt token
+run `node gentoken/publisher.js` to generate publisher jwt token
 
-run `node subscriber.js` to generate subscriber jwt token
+run `node gentoken/subscriber.js` to generate subscriber jwt token
 
 ### running go apps
 
@@ -49,7 +49,7 @@ test
 ```bash
 curl -X POST http://localhost:8080/chat \
   -H "Content-Type: application/json" \
-  -d '{"user_id":"123", "message":"Hello from Go!"}'
+  -d '{"channel":"admin-chat", "user_id":"123", "message":"Hello from Go!"}'
 ```
 
 ---
