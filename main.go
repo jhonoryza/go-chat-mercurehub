@@ -79,10 +79,14 @@ func main() {
 		}
 
 		// Simpan ke DB
+		var savedMsg ResponseChatMessage
 		query := `
-        INSERT INTO messages (channel, user_id, message, is_read)
-        VALUES ($1, $2, $3, $4)`
-		_, err := db.Exec(query, msg.Channel, msg.UserID, msg.Message, msg.IsRead)
+		    INSERT INTO messages (channel, user_id, message, is_read)
+		    VALUES ($1, $2, $3, $4)
+		    RETURNING id, channel, user_id, message, is_read, created_at
+		`
+		err := db.QueryRow(query, msg.Channel, msg.UserID, msg.Message, msg.IsRead).
+			Scan(&savedMsg.Id, &savedMsg.Channel, &savedMsg.UserID, &savedMsg.Message, &savedMsg.IsRead, &savedMsg.CreatedAt)
 		if err != nil {
 			log.Println("DB insert error:", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to save message"})
@@ -90,7 +94,7 @@ func main() {
 		}
 
 		// message serialization to JSON
-		data, err := json.Marshal(msg)
+		data, err := json.Marshal(savedMsg)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to encode message"})
 			return
