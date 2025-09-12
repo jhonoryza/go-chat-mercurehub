@@ -25,11 +25,12 @@ type ChatMessage struct {
 }
 
 type ResponseChatMessage struct {
-	Id      int    `json:"id"`
-	UserID  string `json:"user_id" binding:"required,max=50"`
-	Message string `json:"message" binding:"required"`
-	IsRead  bool   `json:"is_read"`
-	Channel string `json:"channel" binding:"required,max=100"`
+	Id        int       `json:"id"`
+	UserID    string    `json:"user_id" binding:"required,max=50"`
+	Message   string    `json:"message" binding:"required"`
+	IsRead    bool      `json:"is_read"`
+	Channel   string    `json:"channel" binding:"required,max=100"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 // payload structure to mercure
@@ -137,8 +138,7 @@ func main() {
 		messages := []ResponseChatMessage{}
 		for rows.Next() {
 			var m ResponseChatMessage
-			var createdAt time.Time
-			rows.Scan(&m.Id, &m.Channel, &m.UserID, &m.Message, &m.IsRead, &createdAt)
+			rows.Scan(&m.Id, &m.Channel, &m.UserID, &m.Message, &m.IsRead, &m.CreatedAt)
 			messages = append(messages, m)
 		}
 
