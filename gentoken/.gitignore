@@ -1,0 +1,5 @@
+*
+!.gitignore
+!package.json
+!publisher.js
+!subscriber.js
