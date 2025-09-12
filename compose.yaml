@@ -1,0 +1,9 @@
+services:
+    app:
+        image: "jhonoryza/go-chat-mercurehub:latest"
+        container_name: "go-chat-mercurehub"
+        restart: unless-stopped
+        ports:
+            - 4002:8080
+        env_file:
+            - ./.env
