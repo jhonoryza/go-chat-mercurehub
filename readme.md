@@ -29,7 +29,11 @@ fill all the missing key
 check gentoken folder
 
 ```bash
-npm install
+cd gentoken && npm install
+```
+
+```bash
+cp env.example .env
 ```
 
 run `node gentoken/publisher.js` to generate publisher jwt token
